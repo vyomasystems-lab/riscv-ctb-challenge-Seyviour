@@ -10,6 +10,7 @@ RVTEST_CODE_BEGIN
   .option norvc
 
   li TESTNUM, 2
+  
 illegal_instruction:
   .word 0              
   j fail
@@ -21,7 +22,9 @@ mtvec_handler:
   li t1, CAUSE_ILLEGAL_INSTRUCTION
   csrr t0, mcause
   bne t0, t1, fail
-  csrr t0, mepc
+  csrr t0, mepc   #read mepc
+  addi t0, t0, 4  #increment mepc
+  csrw mepc, t0   #write mepc
 
   mret
 
